@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY --from=builder /etc/ssl/certs /etc/ssl/certs
 
+
 RUN curl -fL https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux \
     -o /usr/local/bin/yt-dlp \
     && chmod 0755 /usr/local/bin/yt-dlp \
@@ -34,6 +35,10 @@ RUN curl -fL https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_li
 
 ENV DENO_INSTALL=/root/.deno
 ENV PATH=/root/.deno/bin:$PATH
+
+RUN /usr/local/bin/yt-dlp --version \
+    && /root/.deno/bin/deno --version
+    
 
 RUN useradd -r -u 10001 appuser \
     && mkdir -p /app \
