@@ -243,10 +243,9 @@ func (y *YtdlpPlatform) Download(
 		"--no-playlist",
 		"--no-part",
 		"--geo-bypass",
-		"--no-warnings",
-		"--ignore-errors",
 		"--no-check-certificate",
-		"-q",
+		"--verbose",
+		"--remote-components", "ejs:github",
 		"-o", getPath(track, ".%(ext)s"),
 	}
 
