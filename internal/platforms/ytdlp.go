@@ -289,6 +289,10 @@ func (y *YtdlpPlatform) Download(
 		errStr := strings.TrimSpace(stderr.String())
 		outStr := strings.TrimSpace(stdout.String())
 
+		fmt.Printf("YT-DLP ERROR: %v\n", err)
+		fmt.Printf("YT-DLP STDOUT:\n%s\n", outStr)
+		fmt.Printf("YT-DLP STDERR:\n%s\n", errStr)
+
 		gologging.ErrorF(
 			"YtDlp: Download failed for %s: %v\nSTDOUT:\n%s\nSTDERR:\n%s",
 			track.URL, err, outStr, errStr,
