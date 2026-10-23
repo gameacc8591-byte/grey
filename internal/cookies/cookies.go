@@ -138,6 +138,18 @@ func GetRandomCookieFile() (string, error) {
     // Render Secret File
     const renderCookiePath = "/etc/secrets/cookies.txt"
 
+	if err != nil {
+		fmt.Printf("COOKIE FILE ERROR: %v\n", err)
+	} else if cookieFile == "" {
+		fmt.Println("COOKIE FILE: NOT FOUND")
+	} else {
+		fmt.Printf("COOKIE FILE: FOUND (path=%s)\n", cookieFile)
+	}
+
+	if cookieFile != "" {
+		args = append(args, "--cookies", cookieFile)
+	}
+
     if info, err := os.Stat(renderCookiePath); err == nil && !info.IsDir() {
         gologging.Debug("Using Render secret cookie file")
         return renderCookiePath, nil
