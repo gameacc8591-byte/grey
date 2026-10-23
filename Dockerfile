@@ -31,14 +31,15 @@ RUN curl -fL https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_li
     && chmod 0755 /usr/local/bin/yt-dlp \
     && curl -fsSL https://deno.land/install.sh -o /tmp/deno-install.sh \
     && sh /tmp/deno-install.sh \
+    && install -m 0755 /root/.deno/bin/deno /usr/local/bin/deno \
     && rm -f /tmp/deno-install.sh
 
-ENV DENO_INSTALL=/root/.deno
-ENV PATH=/root/.deno/bin:$PATH
+ENV PATH="/usr/local/bin:${PATH}"
 
 RUN /usr/local/bin/yt-dlp --version \
-    && /root/.deno/bin/deno --version
-    
+    && /usr/local/bin/deno --version \
+    && /usr/local/bin/deno eval "console.log('Deno runtime OK')"
+
 
 RUN useradd -r -u 10001 appuser \
     && mkdir -p /app \

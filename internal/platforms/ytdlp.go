@@ -246,7 +246,7 @@ func (y *YtdlpPlatform) Download(
 		"--no-check-certificate",
 		"--verbose",
 		"--remote-components", "ejs:github",
-		"--js-runtimes", "deno:/root/.deno/bin/deno",
+		"--js-runtimes", "deno:/usr/local/bin/deno",
 		"-o", getPath(track, ".%(ext)s"),
 	}
 
