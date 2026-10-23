@@ -133,22 +133,32 @@ func loadCookieCache() error {
 	return nil
 }
 
+
 func GetRandomCookieFile() (string, error) {
-	var err error
+    // Render Secret File
+    const renderCookiePath = "/etc/secrets/cookies.txt"
 
-	cacheOnce.Do(func() {
-		err = loadCookieCache()
-	})
+    if info, err := os.Stat(renderCookiePath); err == nil && !info.IsDir() {
+        gologging.Debug("Using Render secret cookie file")
+        return renderCookiePath, nil
+    }
 
-	if err != nil {
-		gologging.WarnF("Failed to load cookie cache: %v", err)
-		return "", err
-	}
+    // Fallback: existing local cookie files
+    var err error
+    cacheOnce.Do(func() {
+        err = loadCookieCache()
+    })
 
-	if len(cachedFiles) == 0 {
-		gologging.Warn("No cookie files available")
-		return "", nil
-	}
+    if err != nil {
+        gologging.WarnF("Failed to load cookie cache: %v", err)
+        return "", err
+    }
 
-	return cachedFiles[rand.Intn(len(cachedFiles))], nil
+    if len(cachedFiles) == 0 {
+        gologging.Warn("No cookie files available")
+        return "", nil
+    }
+
+    return *cachedFiles[rand.Intn(len(cachedFiles))], nil
 }
+
